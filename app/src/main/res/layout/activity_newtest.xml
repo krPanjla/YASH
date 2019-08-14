@@ -27,10 +27,8 @@
                 android:textSize="50dp"
                 android:textStyle="bold"
                 app:fontFamily="cursive" />
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            <android.support.design.widget.TextInputEditText
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -38,45 +36,33 @@
                 android:hint="Name"
                 android:textColor="#FFA500"
                 android:textSize="20dp" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            <android.support.design.widget.TextInputEditText
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:focusableInTouchMode="true"
                 android:hint="Phone number"
                 android:textColor="#FFA500"
-                android:textSize="20dp"
-                android:inputType="phone"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            <android.support.design.widget.TextInputEditText
+                android:textSize="20dp" />
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:focusableInTouchMode="true"
-                android:hint=" Password"
+                android:hint="Confirm password"
                 android:textColor="#FFA500"
                 android:textSize="20dp" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            <android.support.design.widget.TextInputEditText
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:focusableInTouchMode="true"
-                android:hint="Confirm Password"
+                android:hint="Password"
                 android:textColor="#FFA500"
-                android:textSize="20dp"
-                />
-            </android.support.design.widget.TextInputLayout>
+                android:textSize="20dp" />
 
             <Button
 
