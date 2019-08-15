@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Main2Activity"
+    tools:context=".HelpRequest"
     android:background="#6D03FF"
     >
 

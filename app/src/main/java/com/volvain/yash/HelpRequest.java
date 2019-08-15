@@ -1,6 +1,8 @@
 package com.volvain.yash;
 
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -9,10 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
-public class Main2Activity extends AppCompatActivity {
+public class HelpRequest extends AppCompatActivity implements LocationListener {
     private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -31,7 +32,7 @@ public class Main2Activity extends AppCompatActivity {
                     mTextMessage.setText(R.string.title_notifications);
                     return true;
                 case R.id.login:
-                   Main2Activity.this.openLogin();
+                   HelpRequest.this.openLogin();
                     mTextMessage.setText("Login/Sign_up");
                     return true;
 
@@ -54,7 +55,27 @@ public class Main2Activity extends AppCompatActivity {
 
 
     public void openLogin() {
-        Intent myIntent = new Intent(Main2Activity.this, log_in.class);
+        Intent myIntent = new Intent(HelpRequest.this, log_in.class);
         startActivity(myIntent);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
