@@ -32,7 +32,7 @@ public static final int PASSWORD=1;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
-        Log.i("hello","hello");
+       // Log.i("hello","hello");
        /* Log.i("MMmmmm",""+"entering");
        Runtime r=Runtime.getRuntime();
         Log.i("MMmmmm",""+"entering");
