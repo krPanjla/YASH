@@ -16,8 +16,9 @@ public class SyncServer extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-       // if(Global.checkInternet()==0)
-        // new Server(context).sync();//TODO Get Id From Database and pass it to sync
+
+      //  if(Global.checkInternet()==0)
+      //  new Server(context).sync();//TODO Get Id From Database and pass it to sync
         return Result.retry();
     }
 }

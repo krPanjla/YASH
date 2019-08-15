@@ -73,6 +73,7 @@ Server(Context c){
         return message;
 
     }
+
   /*  public void sync(Long myId){
     String message="";
         try {

@@ -9,73 +9,52 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class HelpRequest extends AppCompatActivity implements LocationListener {
-    private TextView mTextMessage;
+public class HelpRequest extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText("Settings");
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-                case R.id.login:
-                   HelpRequest.this.openLogin();
-                    mTextMessage.setText("Login/Sign_up");
-                    return true;
-
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        mTextMessage = findViewById(R.id.message);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        navView.setOnNavigationItemSelectedListener(this);
+        loadFragment(new homeFragment());
 
 
     }
 
-
-
-    public void openLogin() {
-        Intent myIntent = new Intent(HelpRequest.this, log_in.class);
-        startActivity(myIntent);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
+    private boolean loadFragment(Fragment fragment){
+        if (fragment !=null){
+getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment fragment =null;
+        switch (menuItem.getItemId()){
+            case R.id.navigation_home:
+                fragment= new homeFragment();
+                break;
+            case  R.id.navigation_dashboard:
+                fragment=new settingsFragment();
+                break;
+            case R.id.navigation_notifications:
+                fragment=new notificationsFragment();
+                break;
+            case  R.id.login:
+                fragment=new loginFragment();
+                break;
+        }
+        return loadFragment(fragment);
     }
 
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 }
