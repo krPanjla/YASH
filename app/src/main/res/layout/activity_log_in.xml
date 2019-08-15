@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
 
             android:layout_height="match_parent"
-            android:orientation="vertical">
 
+            android:orientation="vertical">
 
 
             <ImageView
@@ -26,38 +26,37 @@
                 android:layout_marginTop="30dp"
 
                 android:src="@drawable/cop" />
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:focusableInTouchMode="true"
-                android:hint="Name"
-                android:textColor="#FFA500"
-                android:textSize="20dp"
-                android:inputType="text"/>
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="match_parent">
 
-            <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:focusableInTouchMode="true"
+                    android:hint="Name"
+                    android:inputType="text"
+                    android:textColor="#FFA500"
+                    android:textSize="20dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:passwordToggleEnabled="true">
-                <android.support.design.widget.TextInputEditText
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:focusableInTouchMode="true"
                     android:hint="Password"
+                    android:inputType="numberPassword"
                     android:textColor="#FFA500"
-                    android:textSize="20dp"
-                    android:inputType="numberPassword"/>
-            </android.support.design.widget.TextInputLayout>
-
-
-
+                    android:textSize="20dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <Button
@@ -72,15 +71,16 @@
                 android:textSize="25dp" />
 
             <Button
-                android:onClick="statsSecond"
+                android:id="@+id/createAccount"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginLeft="40dp"
+
+
                 android:layout_marginRight="40dp"
-
-
                 android:layout_marginBottom="34dp"
                 android:background="@drawable/rounded_button"
+                android:onClick="statsSecond"
                 android:text="Create account"
                 android:textColor="#ffffff"
                 android:textSize="25dp" />

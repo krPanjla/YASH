@@ -12,12 +12,12 @@
         android:supportsRtl="true"
 
         android:theme="@style/AppTheme">
-        <activity android:name=".newtest"></activity>
-        <activity android:name=".log_in">
+
+        <activity android:name=".log_in"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+            android:usesCleartextTraffic="true"></activity>
         <activity android:name=".Signup"></activity>
-        <activity android:name=".log_in" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
@@ -29,11 +29,7 @@
 
         </activity>
 
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
 
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
