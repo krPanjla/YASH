@@ -2,20 +2,30 @@ package com.volvain.yash;
 
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class log_in extends AppCompatActivity {
-
+Button b;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        b=(Button)findViewById(R.id.createAccount);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSignup();
+            }
+        });
     }
 
 
-    public void statsSecond(View view) {
-        startActivity(new Intent(log_in.this,MainActivity.class));
+    public void startSignup() {
+
+        startActivity(new Intent(this,Signup.class));
     }
 }
