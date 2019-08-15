@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_log_in);
-        startActivity(new Intent(this,log_in.class));
+        startActivity(new Intent(this,Main2Activity.class));
         //Intent i =new Intent(this,Signup.class);
         //startActivity(i);
       // String s= new Server(this).Signup(9939424667l,"GKM","148");
