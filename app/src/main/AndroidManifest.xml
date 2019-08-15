@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Main2Activity"
+            android:name=".HelpRequest"
             android:label="@string/title_activity_main2"></activity>
         <activity
             android:name=".log_in"
