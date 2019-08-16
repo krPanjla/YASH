@@ -1,8 +1,13 @@
 package com.volvain.yash;
+
+import com.volvain.yash.DAO.Database;
 import android.app.Activity;
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+
+import com.volvain.yash.DAO.Database;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -19,9 +24,9 @@ URL url;
 HttpURLConnection con;
 static String serverUri;
 String message="";
-
-Server(){
-
+Context context;
+Server(Context context){
+this.context=context;
 
 
 }
@@ -106,13 +111,21 @@ Server(){
   public boolean login(Long id,String password){
 
       try {
-          url=new URL(serverUri+"/?id="+id+"&password="+password);
+
+          url=new URL(serverUri+"/login?id="+id+"&password="+password);
           con=(HttpURLConnection)url.openConnection();
           BufferedInputStream i=new BufferedInputStream(con.getInputStream());
+
           int b=0;
           while((b=i.read())!=-1)message+=(char)b;
+          if(!(message.equals("Invalid Password") || message.equals("Invalid User Name"))){
           //TODO put name and id in database and remove if any exist before
-          return true;
+          Database db= new Database(context);
+          db.deletLogIn(id);
+          db.insertData(id,message);
+
+
+          return true;}
       } catch (MalformedURLException e) {
           e.printStackTrace();
       } catch (IOException e) {

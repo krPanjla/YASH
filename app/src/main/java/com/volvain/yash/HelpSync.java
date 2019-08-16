@@ -16,6 +16,8 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.volvain.yash.DAO.Database;
+
 public class HelpSync extends AppCompatActivity implements LocationListener {
    private LocationManager locationManager;
     private String provider;
@@ -83,5 +85,8 @@ public class HelpSync extends AppCompatActivity implements LocationListener {
     private void fetchPersonalDetails(){
        id=null;//TODO Fetch From Db
             String name="";
+            Database db= new Database(this);
+            id=db.getSenderId();
+            name=db.getSenderName();
     }
 }

@@ -24,7 +24,7 @@ public class HelpReqServer extends Worker {
         Double longitude=getInputData().getDouble("longitude",360);
         Double latitude=getInputData().getDouble("latitude",360);
         if(!(id==-1||longitude==360||latitude==360)){
-             message=new Server().firstHelpRequest(id,name,longitude,latitude);
+             message=new Server(context).firstHelpRequest(id,name,longitude,latitude);
             Data out=new Data.Builder()
                     .putString("message",message)
                     .build();
@@ -37,7 +37,7 @@ public class HelpReqServer extends Worker {
             Double longitude=getInputData().getDouble("longitude",360);
             Double latitude=getInputData().getDouble("latitude",360);
             if(!(id==-1||longitude==360||latitude==360)){
-                message=new Server().subsequentHelpRequest(id,longitude,latitude);
+                message=new Server(context).subsequentHelpRequest(id,longitude,latitude);
                 Data out=new Data.Builder()
                         .putString("message",message)
                         .build();
