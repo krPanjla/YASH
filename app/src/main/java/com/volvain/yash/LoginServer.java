@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-public class SyncServer extends Worker {
+public class LoginServer extends Worker {
     Context context;
-    public SyncServer(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public LoginServer(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context=context;
     }
@@ -16,9 +16,9 @@ public class SyncServer extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-
-      //  if(Global.checkInternet()==0)
-      //  new Server().sync();//TODO Get Id From Database and pass it to sync
-        return Result.retry();
+        Long id=getInputData().getLong("id",-1);
+        String password=getInputData().getString("password");
+        new Server().login(id,password);
+        return null;
     }
 }

@@ -14,17 +14,20 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 */
 public class Server  {
-Context c;
+
 URL url;
 HttpURLConnection con;
-String serverUri=c.getString(R.string.server);
+static String serverUri;
+String message="";
 
-Server(Context c){
-    this.c=c;
+Server(){
+
+
+
 }
 
     public  String Signup(Long phone,String name,String password){
-    String message="";
+
 
         try {
           url =new URL(serverUri+"/signup?phone="+phone+"&name="+name+"&password="+password);
@@ -43,7 +46,7 @@ Server(Context c){
     }
 
     public String firstHelpRequest(Long id,String name,Double longitude,Double latitude){
-        String message="";
+
     try {
             url=new URL(serverUri+"/fstReq?id="+id+"&name="+name+"&longitude="+longitude+"&latitude="+latitude);
             con=(HttpURLConnection)url.openConnection();
@@ -58,7 +61,6 @@ Server(Context c){
     return message;
     }
     public String subsequentHelpRequest(Long id,Double longitude,Double latitude){
-        String message="";
         try {
             url=new URL(serverUri+"/subsequentReq?id="+id+"&longitude="+longitude+"&latitude="+latitude);
             con=(HttpURLConnection)url.openConnection();
@@ -101,4 +103,21 @@ Server(Context c){
             e.printStackTrace();
         }
     }*/
+  public boolean login(Long id,String password){
+
+      try {
+          url=new URL(serverUri+"/?id="+id+"&password="+password);
+          con=(HttpURLConnection)url.openConnection();
+          BufferedInputStream i=new BufferedInputStream(con.getInputStream());
+          int b=0;
+          while((b=i.read())!=-1)message+=(char)b;
+          //TODO put name and id in database
+          return true;
+      } catch (MalformedURLException e) {
+          e.printStackTrace();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+      return false;
+  }
 }
