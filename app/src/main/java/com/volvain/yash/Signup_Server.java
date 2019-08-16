@@ -2,6 +2,7 @@ package com.volvain.yash;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class Signup_Server extends Worker {
+
     Context context;
     public Signup_Server(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -20,10 +22,11 @@ public class Signup_Server extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+
         Long phone= (Long) getInputData().getLong("phone",1l);
         String name= getInputData().getString("name");
         String password=getInputData().getString("password");
-        String message=new Server(context).Signup(phone,name,password);
+        String message=new Server().Signup(phone,name,password);
         //String message=new Server(context).Signup(9939424666l,"Gaurav","123");
         Log.i("Reason",message);
         Data out=new Data.Builder()
@@ -33,8 +36,11 @@ public class Signup_Server extends Worker {
            // Toast.makeText(context,""+message,Toast.LENGTH_LONG);
         return Result.success(out);}
         else {
-           // Toast.makeText(context,""+message,Toast.LENGTH_LONG);
+            //Toast.makeText(context,""+message,Toast.LENGTH_LONG);
+            Log.i("gauravrmsc",message);
             return Result.failure(out);
         }
     }
+
 }
+
