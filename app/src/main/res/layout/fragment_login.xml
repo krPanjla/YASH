@@ -34,9 +34,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:focusableInTouchMode="true"
-                    android:hint="ID"
+                    android:hint="User ID (Phone number)"
                     android:id="@+id/loginId"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:textColor="#000000"
                     android:textSize="20dp" />
             </com.google.android.material.textfield.TextInputLayout>
