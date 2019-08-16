@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.HttpURLConnection;
-/*import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-*/
+
 public class Server  {
 
 URL url;
@@ -76,7 +76,7 @@ Server(){
 
     }
 
-  /*  public void sync(Long myId){
+    public void sync(Long myId){
     String message="";
         try {
             url=new URL(serverUri+"/sync?id="+myId);
@@ -102,7 +102,7 @@ Server(){
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }*/
+    }
   public boolean login(Long id,String password){
 
       try {
