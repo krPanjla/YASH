@@ -111,7 +111,7 @@ Server(){
           BufferedInputStream i=new BufferedInputStream(con.getInputStream());
           int b=0;
           while((b=i.read())!=-1)message+=(char)b;
-          //TODO put name and id in database
+          //TODO put name and id in database and remove if any exist before
           return true;
       } catch (MalformedURLException e) {
           e.printStackTrace();
