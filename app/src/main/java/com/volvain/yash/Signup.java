@@ -3,23 +3,16 @@ package com.volvain.yash;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.work.Constraints;
 import androidx.work.Data;
-import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import android.os.Bundle;
-import android.provider.SyncStateContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
 
 public class Signup extends AppCompatActivity {
     EditText name;
@@ -50,7 +43,7 @@ public static final int PASSWORD=1;
         }*/
         name=(EditText) findViewById(R.id.name);
         phone=(EditText)findViewById(R.id.phone);
-        password=(EditText)findViewById(R.id.password);
+        password=(EditText)findViewById(R.id.loginPassword);
         confirmPassword=(EditText)findViewById(R.id.confirmPassword);
         submit=(Button)findViewById(R.id.register);
 

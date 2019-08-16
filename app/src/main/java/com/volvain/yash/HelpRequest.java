@@ -19,6 +19,7 @@ public class HelpRequest extends AppCompatActivity implements BottomNavigationVi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Server.serverUri=this.getString(R.string.server);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         BottomNavigationView navView = findViewById(R.id.nav_view);

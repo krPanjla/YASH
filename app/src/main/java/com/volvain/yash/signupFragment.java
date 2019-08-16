@@ -29,7 +29,7 @@ public class signupFragment extends Fragment {
        View v= inflater.inflate(R.layout.fragment_signup,null);
         name=(EditText) v.findViewById(R.id.name);
         phone=(EditText)v.findViewById(R.id.phone);
-        password=(EditText)v.findViewById(R.id.password);
+        password=(EditText)v.findViewById(R.id.loginPassword);
         confirmPassword=(EditText)v.findViewById(R.id.confirmPassword);
         submit=(Button)v.findViewById(R.id.register);
         submit.setOnClickListener(new View.OnClickListener() {
