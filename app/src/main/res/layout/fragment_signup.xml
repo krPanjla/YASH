@@ -61,7 +61,8 @@
                     android:inputType="phone"
 
                     android:textColor="#000000"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +79,8 @@
 
                     android:hint=" Password"
                     android:textColor="#000000"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:inputType="textWebPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -95,7 +97,8 @@
                     android:focusableInTouchMode="true"
                     android:hint="Confirm Password"
                     android:textColor="#000000"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:inputType="textWebPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
