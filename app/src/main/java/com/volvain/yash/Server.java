@@ -83,12 +83,13 @@ Server(Context c){
             int b=0;
             if((b=i.read())==-1)return;
             else{
-                message+=(char)b;
+              message+=(char)b;
             while((b=i.read())!=-1)message+=(char)b;
             JSONObject obj=(JSONObject) new JSONParser().parse(message);
             Long id=Long.parseLong(obj.get("id").toString());
             Double longitude=Double.parseDouble(obj.get("longitude").toString());
             Double latitude=Double.parseDouble(obj.get("latitude").toString());
+            String name=obj.get("name").toString();
             //TODO insert id,longitude,latitude in help table and send notification accordingly
 
             }

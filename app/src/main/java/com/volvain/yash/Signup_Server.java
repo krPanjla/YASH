@@ -11,6 +11,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class Signup_Server extends Worker {
+
     Context context;
     public Signup_Server(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -37,4 +38,6 @@ public class Signup_Server extends Worker {
             return Result.failure(out);
         }
     }
+
 }
+
