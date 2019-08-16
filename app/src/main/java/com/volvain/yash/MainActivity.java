@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         manager.notify(1,builder.build());
 
         if (isServicesOk()) {
-          //  init();
+
         }
     }
 

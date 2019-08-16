@@ -76,14 +76,14 @@ public class Database extends SQLiteOpenHelper
 
     }
 
-    public int getId()
+    public Long getId()
     {
-        int i=0;
+        Long i=0L;
         SQLiteDatabase db=this.getReadableDatabase();
         String Query="Select id from "+TableInfo;
         Cursor rs=db.rawQuery(Query,null);
         while(rs.moveToNext())
-            i= rs.getInt(0);
+            i= rs.getLong(0);
         return i;
     }
 
