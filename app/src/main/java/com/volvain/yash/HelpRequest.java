@@ -28,11 +28,12 @@ public class HelpRequest extends AppCompatActivity implements BottomNavigationVi
         loadFragment(new homeFragment());
 
 
+
     }
 
     private boolean loadFragment(Fragment fragment){
         if (fragment !=null){
-getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).addToBackStack(null).commit();
             return true;
         }
         return false;

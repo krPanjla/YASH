@@ -9,7 +9,10 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+android:text="In case of  emergency press the help button"
+        android:textSize="20dp"
+        android:textColor="@color/colorAccent"
+        android:paddingTop="40dp"
         android:textAlignment="center"
         />
 
@@ -20,7 +23,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_buzzer"
+        android:background="@drawable/button_default"
         android:text="HELP!"
         android:textColor="#ffffff"
         android:textSize="60dp"
