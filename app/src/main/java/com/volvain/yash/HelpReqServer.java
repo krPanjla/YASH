@@ -1,6 +1,7 @@
 package com.volvain.yash;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
@@ -16,19 +17,23 @@ public class HelpReqServer extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        String message;
-        int n=getInputData().getInt("n",1);
+        int m=-1;
+        int n=getInputData().getInt("no",-1);
         if(n==0){
         Long id=getInputData().getLong("id",-1);
         String name=getInputData().getString("name");
         Double longitude=getInputData().getDouble("longitude",360);
         Double latitude=getInputData().getDouble("latitude",360);
         if(!(id==-1||longitude==360||latitude==360)){
-             message=new Server().firstHelpRequest(id,name,longitude,latitude);
+
+             m=new Server(context).firstHelpRequest(id,name,longitude,latitude);
             Data out=new Data.Builder()
-                    .putString("message",message)
+                    .putInt("message",m)
                     .build();
-            if(message.equals("Request Received")) return Result.success(out);
+
+            if(m==1) {
+
+                return Result.success(out);}
             else return Result.retry();
         }
          }
@@ -37,11 +42,11 @@ public class HelpReqServer extends Worker {
             Double longitude=getInputData().getDouble("longitude",360);
             Double latitude=getInputData().getDouble("latitude",360);
             if(!(id==-1||longitude==360||latitude==360)){
-                message=new Server().subsequentHelpRequest(id,longitude,latitude);
+                m=new Server(context).subsequentHelpRequest(id,longitude,latitude);
                 Data out=new Data.Builder()
-                        .putString("message",message)
+                        .putInt("message",m)
                         .build();
-                if(message.equals("Request Received")) return Result.success(out);
+                if(m==1) return Result.success(out);
                 else return Result.retry();
             }
         }
