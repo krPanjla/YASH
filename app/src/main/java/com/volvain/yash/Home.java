@@ -40,7 +40,7 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
 
     private boolean loadFragment(Fragment fragment){
         if (fragment !=null){
-getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).addToBackStack(null).commit();
             return true;
         }
         return false;
