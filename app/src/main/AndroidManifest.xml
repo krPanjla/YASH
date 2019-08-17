@@ -36,8 +36,17 @@
             android:label="@string/title_activity_pin_locations"></activity>
 <activity android:name=".HelpSync"></activity>
         <activity
+
             android:name=".Home"
-            android:label="@string/title_activity_main2" />
+            android:label="@string/title_activity_main2"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+                   </activity>
+
         <activity
             android:name=".log_in"
             android:theme="@style/AppTheme"
@@ -46,11 +55,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data

@@ -4,7 +4,7 @@
 <TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="notification"
-    android:textSize="100dp"
+    android:text="notification UNDER COSTRUCTION"
+    android:textSize="50dp"
     android:textAlignment="center"/>
 </RelativeLayout>
