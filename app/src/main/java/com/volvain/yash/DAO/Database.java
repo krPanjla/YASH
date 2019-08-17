@@ -240,6 +240,8 @@ public class Database extends SQLiteOpenHelper
             insertHelp(id, name, lng, lat);
 
 
+        }
+      
 
     }
     public void getNotification(){
