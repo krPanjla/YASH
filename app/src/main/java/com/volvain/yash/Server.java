@@ -14,10 +14,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.HttpURLConnection;
-/*import org.json.simple.JSONObject;
+import java.util.Map;
+
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-*/
+
 public class Server  {
 
 URL url;
@@ -27,7 +31,6 @@ String message="";
 Context context;
 Server(Context context){
 this.context=context;
-
 
 }
 
@@ -50,64 +53,103 @@ this.context=context;
         return message;
     }
 
-    public String firstHelpRequest(Long id,String name,Double longitude,Double latitude){
-
+    public int firstHelpRequest(Long id,String name,Double longitude,Double latitude){
+        Log.i("gauravrmsc","Sending first request");
+        int m=-1;
     try {
             url=new URL(serverUri+"/fstReq?id="+id+"&name="+name+"&longitude="+longitude+"&latitude="+latitude);
+
             con=(HttpURLConnection)url.openConnection();
             BufferedInputStream i=new BufferedInputStream(con.getInputStream());
-            int b=0;
-            while((b=i.read())!=-1)message+=(char)b;
+        Log.i("gauravrmsc","received first request");
+           /* int b=-;
+            while((b=i.read())!=-1)message+=(char)b;*/
+           m=Integer.parseInt(""+(char)i.read());
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    return message;
+    return m;
+    //return message;
     }
-    public String subsequentHelpRequest(Long id,Double longitude,Double latitude){
+    public int subsequentHelpRequest(Long id,Double longitude,Double latitude){
+        Log.i("gauravrmsc","Sending Subsequent request");
+        int m=-2;
         try {
+
             url=new URL(serverUri+"/subsequentReq?id="+id+"&longitude="+longitude+"&latitude="+latitude);
             con=(HttpURLConnection)url.openConnection();
             BufferedInputStream i=new BufferedInputStream(con.getInputStream());
-            int b=0;
-            while((b=i.read())!=-1)message+=(char)b;
+            Log.i("gauravrmsc","received Subsequent request");
+            /*int b=0;
+            while((b=i.read())!=-1)message+=(char)b;*/
+            m=Integer.parseInt(""+(char)i.read());
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            Log.i("gauravrmsc",""+e);
             e.printStackTrace();
         }
-        return message;
+        return m;
 
     }
 
-  /*  public void sync(Long myId){
+    public void sync(Long myId){
     String message="";
+        Log.i("gauravrmsc","sending to server");
         try {
             url=new URL(serverUri+"/sync?id="+myId);
             con=(HttpURLConnection)url.openConnection();
             BufferedInputStream i=new BufferedInputStream(con.getInputStream());
+            Log.i("gauravrmsc","response received");
             int b=0;
-            if((b=i.read())==-1)return;
-            else{
-              message+=(char)b;
-            while((b=i.read())!=-1)message+=(char)b;
-            JSONObject obj=(JSONObject) new JSONParser().parse(message);
-            Long id=Long.parseLong(obj.get("id").toString());
-            Double longitude=Double.parseDouble(obj.get("longitude").toString());
-            Double latitude=Double.parseDouble(obj.get("latitude").toString());
-            String name=obj.get("name").toString();
-            //TODO insert id,longitude,latitude in help table and send notification accordingly
-
+          /*  if((b=i.read())==-1){
+                Log.i("gauravrmsc","Server sent null");
+                return;
             }
+            else{
+              message+=(char)b;*/
+            while((b=i.read())!=-1)message+=(char)b;
+                Log.i("gauravrmsc","in Server Sync");
+                Log.i("gauravrmsc",""+message);
+            JSONArray ary=(JSONArray) new JSONParser().parse(message);
+            for (int n=0;n<ary.size();n++) {
+                Map m=(Map)ary.get(n);
+              /*  Long id = Long.parseLong(m.get("id").toString());
+                Double longitude = Double.parseDouble(m.get("longitude").toString());
+                Double latitude = Double.parseDouble(obj.get("latitude").toString());
+                String name = obj.get("name").toString();*/
+              Long id=(Long)m.get("id");
+              Double longitude=(Double)m.get("longitude");
+                Double latitude=(Double)m.get("latitude");
+                String name=m.get("name").toString();
+                Log.i("gauravrmsc","longitude="+longitude);
+                Log.i("gauravrmsc","latitude="+latitude);
+                Log.i("gauravrmsc","nme="+name);
+                Log.i("gauravrmsc","nme="+id);
+
+                //TODO insert id,longitude,latitude and name in help table and send notification accordingly
+                Log.i("gauravrmsc","inserting into database");
+                Database db= new Database(context);
+                Log.i("gauravrmsc","inserting into database1"+db.updatHelp(id,name,latitude,longitude));
+
+                Log.i("gauravrmsc","inserted into database");
+            }
+            //}
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            Log.i("gauravrmsc",""+e);
         } catch (IOException e) {
             e.printStackTrace();
+            Log.i("gauravrmsc",""+e);
         } catch (ParseException e) {
             e.printStackTrace();
+            Log.i("gauravrmsc",""+e);
         }
-    }*/
+    }
   public boolean login(Long id,String password){
 
       try {

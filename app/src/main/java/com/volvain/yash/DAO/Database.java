@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -41,8 +42,8 @@ public class Database extends SQLiteOpenHelper
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL(" DROP TABLE IF EXISTS Info");
-        onCreate(db);
+        //db.execSQL(" DROP TABLE IF EXISTS Info");
+        //onCreate(db);
     }
 
     public  void insertData(Long id, String name)
@@ -87,6 +88,15 @@ public class Database extends SQLiteOpenHelper
         return i;
     }
 
+    public boolean checkId()
+    {
+        Long i=0L;
+        SQLiteDatabase db=this.getReadableDatabase();
+        String Query="Select id from "+TableInfo;
+        Cursor rs=db.rawQuery(Query,null);
+        return rs.moveToNext();
+    }
+
     public void updateName(int id,String nm)
     {
         SQLiteDatabase db=this.getWritableDatabase();
@@ -109,7 +119,7 @@ public class Database extends SQLiteOpenHelper
     }
 
 
-    public int insertHelp(Long ph,String name,double lat,double lng)
+    public void insertHelp(Long ph,String name,double lat,double lng)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv=new ContentValues();
@@ -117,8 +127,9 @@ public class Database extends SQLiteOpenHelper
         cv.put("Name",name);
         cv.put("Lat",lat);
         cv.put("Lng",lng);
-        long result= db.insert(TableHelp,null,cv);
-        return (int) result;
+        db.insert(TableHelp,null,cv);
+        getNotification();
+       // return (int) result;
 
     }
 
@@ -143,29 +154,35 @@ public class Database extends SQLiteOpenHelper
 
     public Long getSenderId()
     {
+        Long i=0L;
         SQLiteDatabase db=this.getReadableDatabase();
-        String Query="Select Phone_no from "+TableHelp;
+        String Query="Select * from "+TableInfo;
         Cursor rs=db.rawQuery(Query,null);
-        Long i = rs.getLong(0);
+        while ((rs.moveToNext()))
+         i = rs.getLong(0);
         return i;
     }
 
     public String getSenderName()
     {
+        String n="";
         SQLiteDatabase db=this.getReadableDatabase();
-        String Query="Select name from "+TableHelp;
+        String Query="Select * from "+TableInfo;
         Cursor rs=db.rawQuery(Query,null);
-        String n=rs.getString(1);
+        while ((rs.moveToNext()))
+         n=rs.getString(1);
         return n;
     }
-    public void updateHelp(Long id,String name,double lat,double lng)
+    public boolean updatHelp(Long id,String name,double lng,double lat)
     {
+        Log.i("gauravrmsc","message"+id);
         SQLiteDatabase db=this.getWritableDatabase();
+       // SQLiteDatabase mdb=this.getReadableDatabase();
 
         String StringId=Long.toString(id);
         ContentValues cv= new ContentValues();
         Cursor rs=getHelpId();
-        Long i =new Long(0);
+        Long i ;
         while(rs.moveToNext()) {
             i = rs.getLong(0);
             if (i == id) {
@@ -176,15 +193,23 @@ public class Database extends SQLiteOpenHelper
 
              else{
                 insertHelp(id, name, lat, lng);
-               // MainActivity.getNotification();
-            }
-        }
 
+            }
+
+        }*/
+       return true;
 
 
     }
-
-
+     Context context;
+    public void getNotification(){
+    NotificationCompat.Builder builder= new NotificationCompat.Builder(context,"Yash")
+            .setContentTitle("New Request")
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+    manager.notify(1,builder.build());
+    }
 
 
 

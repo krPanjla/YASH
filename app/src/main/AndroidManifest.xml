@@ -34,11 +34,9 @@
         <activity
             android:name=".PinLocations"
             android:label="@string/title_activity_pin_locations"></activity>
+<activity android:name=".HelpSync"></activity>
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".HelpRequest"
+            android:name=".Home"
             android:label="@string/title_activity_main2" />
         <activity
             android:name=".log_in"
