@@ -1,5 +1,8 @@
 package com.volvain.yash.DAO;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,28 +10,35 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.volvain.yash.MainActivity;
+import com.volvain.yash.R;
 
 
 public class Database extends SQLiteOpenHelper
-{
-
+{   public  Cursor rs;
+    public SQLiteDatabase db;
     public static final String DatabaseName="yash.db";
     public static final String TableInfo="Login";
-    public static final String TableHelp="help";
+    public static final String TableHelp="Help";
     public static final String Col1="ID";
     public static final String Col2="Name";
-
+    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    String name;
+    private Context context;
 
 
     public Database(Context context) {
         super(context, DatabaseName, null, 1);
-    SQLiteDatabase db=this.getWritableDatabase();
+     db=this.getWritableDatabase();
+    this.context=context;
     }
 
 
@@ -36,7 +46,7 @@ public class Database extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db) {
         String CreateTableInfo = "create table Login ( ID Integer primary key, Name Text not null);";
         db.execSQL(CreateTableInfo);
-        String CreateTableHelp="Create table Help (Phone_no Integer  ,Name Text ,Lat Real ,Lng Real )";
+        String CreateTableHelp="Create table Help (Phone_no Integer  ,Name Text ,Lng Real ,Lat Real )";
         db.execSQL(CreateTableHelp);
     }
 
@@ -91,7 +101,7 @@ public class Database extends SQLiteOpenHelper
     public boolean checkId()
     {
         Long i=0L;
-        SQLiteDatabase db=this.getReadableDatabase();
+
         String Query="Select id from "+TableInfo;
         Cursor rs=db.rawQuery(Query,null);
         return rs.moveToNext();
@@ -119,16 +129,19 @@ public class Database extends SQLiteOpenHelper
     }
 
 
-    public void insertHelp(Long ph,String name,double lat,double lng)
-    {
+    public void insertHelp(Long ph,String name,double lng,double lat)
+    {Log.i("gauravrmsc","in insert");
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv=new ContentValues();
         cv.put("Phone_no",ph);
         cv.put("Name",name);
-        cv.put("Lat",lat);
         cv.put("Lng",lng);
+        cv.put("Lat",lat);
+
         db.insert(TableHelp,null,cv);
+
         getNotification();
+
        // return (int) result;
 
     }
@@ -142,13 +155,37 @@ public class Database extends SQLiteOpenHelper
 
     }
 
-    public Cursor getHelpId()
+    public Long getHelpId()
     {
-        int i;
+        Long i =0L;
         SQLiteDatabase db=this.getReadableDatabase();
         String Query="Select Phone_no from "+TableHelp;
-        Cursor rs=db.rawQuery(Query,null);
+        Cursor rs =db.rawQuery(Query,null);
+        while(rs.moveToNext())
+            i=rs.getLong(0);
+       return i;
 
+    }
+
+    public String getHelpName()
+    {
+        String n="";
+        SQLiteDatabase db=this.getReadableDatabase();
+        String Query="Select name from "+TableHelp;
+        Cursor rs =db.rawQuery(Query,null);
+        while(rs.moveToNext())
+            n=rs.getString(0);
+        return n;
+    }
+
+
+
+    public Cursor getCursor()
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        String Query="Select * from "+TableHelp;
+        Cursor rs =db.rawQuery(Query,null);
+       // rs.moveToFirst();
         return rs;
     }
 
@@ -173,45 +210,70 @@ public class Database extends SQLiteOpenHelper
          n=rs.getString(1);
         return n;
     }
-    public boolean updatHelp(Long id,String name,double lng,double lat)
-    {
-        Log.i("gauravrmsc","message"+id);
+    public void updatHelp(Long id,String name,double lng,double lat)
+    {this.name=name;
+
         SQLiteDatabase db=this.getWritableDatabase();
-       // SQLiteDatabase mdb=this.getReadableDatabase();
 
         String StringId=Long.toString(id);
         ContentValues cv= new ContentValues();
-        Cursor rs=getHelpId();
-        Long i ;
+        //Cursor rs=getHelpId();
+        Long i=0L;
+        String Query="Select Phone_no from "+TableHelp;
+        Cursor rs =db.rawQuery(Query,null);
+      //  Log.i("gauravrmsc","checking Value "+id);
+        //Log.i("gauravrmsc","checking Value "+rs.moveToNext());
+
         while(rs.moveToNext()) {
             i = rs.getLong(0);
-            if (i == id) {
+
+            if (i.equals(id)) {
                 cv.put("lat", lat);
                 cv.put("lng", lng);
-                db.update(TableHelp,cv,"Phone_no= ?",new String[]{StringId});
+                db.update(TableHelp, cv, "Phone_no= ?", new String[]{StringId});
+
+                return;
             }
 
-             else{
-                insertHelp(id, name, lat, lng);
+        }
 
-            }
+            insertHelp(id, name, lng, lat);
 
-        }*/
-       return true;
 
 
     }
-     Context context;
     public void getNotification(){
-    NotificationCompat.Builder builder= new NotificationCompat.Builder(context,"Yash")
+
+    /*NotificationCompat.Builder builder= new NotificationCompat.Builder(context,"Yash")
             .setContentTitle("New Request")
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        Log.i("gauravrmsc"," n"+builder);
     NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+        Log.i("gauravrmsc"," notificati");
     manager.notify(1,builder.build());
+        Log.i("gauravrmsc"," notification sent");
+  */
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+        bigText.bigText("");
+        bigText.setBigContentTitle("Today's Bible Verse");
+        bigText.setSummaryText("Text in detail");
+Notification notification= new NotificationCompat.Builder(context,"CHANNELID")
+        .setContentTitle("New Request")
+        .setContentText(name+" Needs Help")
+        .setAutoCancel(true)
+        .setSmallIcon(R.drawable.abc)
+        .setPriority(NotificationCompat.PRIORITY_HIGH).build();
+
+   NotificationManagerCompat notificationManager=NotificationManagerCompat.from(context);
+
+   notificationManager.notify(1,notification);
+
     }
 
 
-
 }
+
+
+
 

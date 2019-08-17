@@ -1,8 +1,11 @@
 package com.volvain.yash;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,7 +20,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class Home extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-
+    public static final String CHANNELID="channel1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +29,10 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
         Database db= new Database(this);
         //TODO if id exists
         if(db.checkId()){
-            Log.i("gauravrmsc","background syncing"); BackgroundWork.sync();}
+            BackgroundWork.sync();}
         super.onCreate(savedInstanceState);
         Server.serverUri=this.getString(R.string.server);
+        createNotificationChannel();
        setContentView(R.layout.activity_main2);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(this);
@@ -65,5 +69,13 @@ getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,f
         }
         return loadFragment(fragment);
     }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+            NotificationChannel channel = new NotificationChannel(CHANNELID, "Help Request", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("Channel 1");
+            NotificationManager manager = this.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
 }

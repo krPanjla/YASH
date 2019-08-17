@@ -113,8 +113,7 @@ this.context=context;
             else{
               message+=(char)b;*/
             while((b=i.read())!=-1)message+=(char)b;
-                Log.i("gauravrmsc","in Server Sync");
-                Log.i("gauravrmsc",""+message);
+
             JSONArray ary=(JSONArray) new JSONParser().parse(message);
             for (int n=0;n<ary.size();n++) {
                 Map m=(Map)ary.get(n);
@@ -126,17 +125,14 @@ this.context=context;
               Double longitude=(Double)m.get("longitude");
                 Double latitude=(Double)m.get("latitude");
                 String name=m.get("name").toString();
-                Log.i("gauravrmsc","longitude="+longitude);
-                Log.i("gauravrmsc","latitude="+latitude);
-                Log.i("gauravrmsc","nme="+name);
-                Log.i("gauravrmsc","nme="+id);
+
 
                 //TODO insert id,longitude,latitude and name in help table and send notification accordingly
-                Log.i("gauravrmsc","inserting into database");
-                Database db= new Database(context);
-                Log.i("gauravrmsc","inserting into database1"+db.updatHelp(id,name,latitude,longitude));
 
-                Log.i("gauravrmsc","inserted into database");
+                Database db= new Database(context);
+
+                db.updatHelp(id,name,longitude,latitude);
+
             }
             //}
         } catch (MalformedURLException e) {
