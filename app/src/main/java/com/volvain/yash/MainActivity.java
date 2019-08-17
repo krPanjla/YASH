@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.GoogleApiAvailability;
 import com.volvain.yash.DAO.Database;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_log_in);
-        startActivity(new Intent(this, HelpRequest.class));
+        startActivity(new Intent(this, Home.class));
         Database db= new Database(this);
         //Intent i =new Intent(this,Signup.class);
         //startActivity(i);
@@ -49,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
         NotificationManagerCompat manager=  NotificationManagerCompat.from(this);
         manager.notify(1,builder.build());
 
-        if (isServicesOk()) {
+      /*  if (isServicesOk()) {
           //  init();
         }
-    }
+    }*/
 
-    public boolean isServicesOk() {
+ /*   public boolean isServicesOk() {
 
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
         if (available == ConnectionResult.SUCCESS) {
@@ -71,5 +71,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "You can't make request ", Toast.LENGTH_SHORT).show();
         }
         return false;
-    }
-}
+    }*/
+}}

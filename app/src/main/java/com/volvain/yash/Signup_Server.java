@@ -28,7 +28,6 @@ public class Signup_Server extends Worker {
         String password=getInputData().getString("password");
         String message=new Server(context).Signup(phone,name,password);
         //String message=new Server(context).Signup(9939424666l,"Gaurav","123");
-        Log.i("Reason",message);
         Data out=new Data.Builder()
                 .putString("message",message)
                 .build();
@@ -37,7 +36,6 @@ public class Signup_Server extends Worker {
         return Result.success(out);}
         else {
             //Toast.makeText(context,""+message,Toast.LENGTH_LONG);
-            Log.i("gauravrmsc",message);
             return Result.failure(out);
         }
     }
