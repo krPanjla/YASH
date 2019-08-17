@@ -49,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
         NotificationManagerCompat manager=  NotificationManagerCompat.from(this);
         manager.notify(1,builder.build());
 
+
       /*  if (isServicesOk()) {
           //  init();
+
         }
     }*/
 
