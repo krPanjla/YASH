@@ -1,6 +1,7 @@
 package com.volvain.yash;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -18,7 +19,8 @@ public class LoginServer extends Worker {
     public Result doWork() {
         Long id=getInputData().getLong("id",-1);
         String password=getInputData().getString("password");
-        new Server().login(id,password);
-        return null;
+        if(new Server(context).login(id,password))
+        return Result.success();
+        return Result.failure();
     }
 }

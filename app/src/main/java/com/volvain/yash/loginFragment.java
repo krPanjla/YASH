@@ -1,6 +1,8 @@
 package com.volvain.yash;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +51,8 @@ public class loginFragment extends Fragment {
 
     }
     public void login(){
+        if(Global.checkInternet()==0)
+        {
      Long id=Long.parseLong(idField.getText().toString());
      String password=passswordField.getText().toString();
      Data data= new Data.Builder()
@@ -59,15 +63,19 @@ public class loginFragment extends Fragment {
                 .observe(this, new Observer<WorkInfo>() {
                     @Override
                     public void onChanged(@Nullable WorkInfo workInfo) {
-                        if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                        if (workInfo != null && workInfo.getState() == WorkInfo.State.RUNNING||workInfo.getState() == WorkInfo.State.ENQUEUED)
+                            Toast.makeText(loginFragment.this.getContext(), "Processing!", Toast.LENGTH_LONG).show();
+                        else if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                             Toast.makeText(loginFragment.this.getContext(),"Login Sucessful!",Toast.LENGTH_LONG).show();
                             openHome();
+                            BackgroundWork.sync();
                         }
                         else if (workInfo != null && workInfo.getState() == WorkInfo.State.FAILED) {
                             Toast.makeText(loginFragment.this.getContext(),"Invalid ID or Password",Toast.LENGTH_LONG).show();
                         }
                     }
-                });
+                });}
+         else Toast.makeText(this.getContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
     }
     public void openHome(){
         Fragment fragment = new homeFragment();

@@ -6,24 +6,31 @@ import android.location.LocationListener;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.volvain.yash.DAO.Database;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class HelpRequest extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Server.serverUri=this.getString(R.string.server);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
 
+        //Server.serverUri="https://projectmctibers.appspot.com";
+        Database db= new Database(this);
+        //TODO if id exists
+        if(db.checkId()){
+            Log.i("gauravrmsc","background syncing"); BackgroundWork.sync();}
+        super.onCreate(savedInstanceState);
+        Server.serverUri=this.getString(R.string.server);
+       setContentView(R.layout.activity_main2);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(this);
         loadFragment(new homeFragment());
 
