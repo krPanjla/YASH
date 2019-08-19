@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import com.volvain.yash.DAO.Database;
 
 public class homeFragment extends Fragment {
     Button helpButton;
+    TextView userName;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,12 +37,17 @@ public class homeFragment extends Fragment {
                 sendRequest();
             }
         });
+        userName=(TextView) v.findViewById(R.id.userName);
+        userName.setText("Hi "+new Database(this.getContext()).getName());
         return v;
+
+
     }
 public void sendRequest(){
         if(Global.checkInternet()==0) {
             Database db= new Database(getContext());
             if(db.checkId()){
+                Log.i("gauravrmsc","creating help sync");
             startActivity(new Intent(this.getContext(),HelpSync.class));}
         else { Fragment fragment = new loginFragment();
     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

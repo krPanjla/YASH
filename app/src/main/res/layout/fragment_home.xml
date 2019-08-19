@@ -16,14 +16,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textSize="20dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Hi Gaurav"
-                            android:gravity="left"
-                            />
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20dp" />
 
 
                         <Button
@@ -45,6 +45,7 @@
 
 
                             android:textSize="60dp" />
+
 
                         <Button
                             android:id="@+id/login_btn"

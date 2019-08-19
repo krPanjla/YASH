@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
@@ -66,8 +68,9 @@ public class signupFragment extends Fragment {
                                     Toast.makeText(signupFragment.this.getContext(), "Processing!", Toast.LENGTH_LONG).show();
 
                                else if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                                    Toast.makeText(signupFragment.this.getContext(), "Signup Sucessful!", Toast.LENGTH_LONG).show();
+                                    {Toast.makeText(signupFragment.this.getContext(), "Signup Sucessful!", Toast.LENGTH_LONG).show();
                                     //TODO Add id and name to database
+                                        openHome();}
                                 } else if (workInfo != null && workInfo.getState() == WorkInfo.State.FAILED) {
                                     Toast.makeText(signupFragment.this.getContext(), "User Already Exists", Toast.LENGTH_LONG).show();
                                 }
@@ -77,5 +80,13 @@ public class signupFragment extends Fragment {
                 Toast.makeText(this.getContext(), "Password Match Incorrect", Toast.LENGTH_LONG).show();
         }
          else Toast.makeText(this.getContext(),"No Internet Connection",Toast.LENGTH_LONG);
+    }
+    public void openHome(){
+        Fragment fragment = new homeFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

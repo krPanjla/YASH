@@ -39,6 +39,7 @@ public class HelpSync extends AppCompatActivity implements LocationListener {
 
        super.onCreate(savedInstanceState);
        Server.serverUri=this.getString(R.string.server);
+
        setContentView(R.layout.helpframe);
        Toast.makeText(this,"Sending Request",Toast.LENGTH_LONG);
        fetchPersonalDetails();

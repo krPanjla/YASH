@@ -7,6 +7,8 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 
+import androidx.work.WorkManager;
+
 import com.volvain.yash.DAO.Database;
 
 import java.io.BufferedInputStream;
@@ -31,7 +33,7 @@ String message="";
 Context context;
 Server(Context context){
 this.context=context;
-
+serverUri=context.getString(R.string.server);
 }
 
     public  String Signup(Long phone,String name,String password){
@@ -143,7 +145,7 @@ this.context=context;
             Log.i("gauravrmsc",""+e);
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.i("gauravrmsc",""+e);
+            Log.i("gauravrmsc","Parse Exception"+e);
         }
     }
   public boolean login(Long id,String password){
@@ -159,7 +161,11 @@ this.context=context;
           if(!(message.equals("Invalid Password") || message.equals("Invalid User Name"))){
           //TODO put name and id in database and remove if any exist before
           Database db= new Database(context);
-          db.deletLogIn(id);
+
+          db.deleteHelp();//TODO add to logout
+          db.deletLogIn();//TODO add to logout
+
+
           db.insertData(id,message);
 
 

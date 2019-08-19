@@ -20,7 +20,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class Home extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    public static final String CHANNELID="channel1";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,21 +29,33 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
         //Server.serverUri="https://projectmctibers.appspot.com";
         Database db= new Database(this);
         //TODO if id exists
-        if(db.checkId()){
-            BackgroundWork.sync();}
         super.onCreate(savedInstanceState);
         Server.serverUri=this.getString(R.string.server);
-        createNotificationChannel();
-       setContentView(R.layout.activity_main2);
+
+        setContentView(R.layout.activity_main2);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(this);
-        loadFragment(new homeFragment());
+        Log.i("gaurav",""+1);
+        if(db.checkId()){
+            Log.i("gaurav","true");
+            BackgroundWork.sync();
+       if(this.getIntent().hasExtra("fragmentNo")){
+            if(this.getIntent().getStringExtra("fragmentNo").equals("NotificationFragment"))
+                loadFragment(new notificationsFragment());}
+        else loadFragment(new homeFragment());}
+
+        else{ loadFragment(new loginFragment());}
+        Log.i("gaurav",""+2);
+        /*else if(fragmentNo==3){
+            loadFragment(new notificationsFragment());
+            fragmentNo=1;
+        }*/
 
 
 
     }
 
-    private boolean loadFragment(Fragment fragment){
+    private  boolean loadFragment(Fragment fragment){
         if (fragment !=null){
 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).addToBackStack(null).commit();
             return true;
@@ -69,13 +82,5 @@ getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,f
         }
         return loadFragment(fragment);
     }
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            NotificationChannel channel = new NotificationChannel(CHANNELID, "Help Request", NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("Channel 1");
-            NotificationManager manager = this.getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
-    }
 }
