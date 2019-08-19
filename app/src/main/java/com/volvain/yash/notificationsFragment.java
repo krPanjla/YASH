@@ -1,6 +1,7 @@
 package com.volvain.yash;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -18,6 +19,7 @@ import com.volvain.yash.DAO.Database;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.work.WorkManager;
 
 import com.volvain.yash.DAO.Database;
 
@@ -58,7 +60,12 @@ public class notificationsFragment extends Fragment {
                 Button b=(Button)v;
                 String text1=b.getText().toString();
                 Long id=Long.parseLong(new StringBuffer(new StringBuffer(text1).reverse().substring(0,10)).reverse().toString());
-                Log.i("gauravrmsc","id="+id);
+                Log.i("gauravrmsc","a");
+                WorkManager.getInstance().cancelAllWork();
+               Intent intent=new Intent(notificationsFragment.this.getContext(),MapsActivity.class);
+               intent.putExtra("id",id);
+                Log.i("gauravrmsc","a1");
+               startActivity(intent);
                //TODO Get id from here for search
             }
         });

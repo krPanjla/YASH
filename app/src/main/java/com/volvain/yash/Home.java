@@ -32,6 +32,8 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
         super.onCreate(savedInstanceState);
         Server.serverUri=this.getString(R.string.server);
 
+        Log.i("gauravrmsc","a1");
+
         setContentView(R.layout.activity_main2);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(this);

@@ -294,6 +294,28 @@ NotificationCompat.Builder notificationBuilder= new NotificationCompat.Builder(c
             manager.createNotificationChannel(channel);
         }
     }
+
+    public long getHelpLat(Long id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        String q= "Select Lat from Help where Phone_no =  "+id;
+        Cursor rs =db.rawQuery(q,null);
+        rs.moveToNext();
+           Long lat=rs.getLong(0);
+        return lat;
+
+    }
+
+    public long getHelpLng(Long id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        String q= "Select Lng from Help where Phone_no =  "+id;
+        Cursor rs =db.rawQuery(q,null);
+        rs.moveToNext();
+        Long lng=rs.getLong(0);
+        return lng;
+
+    }
 }
 
 
