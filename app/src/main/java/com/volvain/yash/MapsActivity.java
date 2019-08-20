@@ -51,21 +51,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public int AAAA=0;
     private Long id;
     Database db;
-
+     int n=0;
+    int m=0;//for moving camera
     private static final float DEFAULT_ZOOM = 15;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //myLatitude=32.0954731;
         //myLongitude=76.3923159;
-        Log.i("gauravrmsc","a2");
+
         super.onCreate(savedInstanceState);
-        Log.i("gauravrmsc","a3");
+
         setContentView(R.layout.activity_maps2);
-        db=new Database(MapsActivity.this);
-        Log.i("gauravrmsc","a4");
-        //id=Long.parseLong(this.getIntent().getStringExtra("id"));
-        id=8628087622l;
+        db=new Database(this);
+
+       // String s=this.getIntent().getStringExtra("id");
+       id= this.getIntent().getLongExtra("id",-1l);
+        Log.i("gauravrmsc","id="+id);
+        //id=Long.parseLong();
+     //   Log.i("aaa"," id="+id);
+
+       // Log.i("gauravrmsc","id="+id);
         locationManager=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -81,13 +87,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
+        mRunnable.run();
         DirectionsResult result=directionsResult();
         Log.i("gauravrmsc","result="+result);
         addMarkersToMap(result,mMap);
         addPolyline(result,mMap);
         onLocationChanged(location);
-      //  mRunnable.run();TODO
+
 
         // Add a marker in Sydney and move the camera
        /* LatLng sydney = new LatLng(-34, 151);
@@ -97,34 +105,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        //myLongitude=location.getLongitude();
-        //myLatitude=location.getLatitude();
-        myLatitude=32.0954731;
-        myLongitude=76.3923159;
+        myLongitude=location.getLongitude();
+        myLatitude=location.getLatitude();
         DirectionsResult result=directionsResult();
         addMarkersToMap(result,mMap);
         addPolyline(result,mMap);
     }
-/*
+
     private Runnable mRunnable=new Runnable(){
 
         @Override
         public void run() {
-           /* Long tempLatitude= db.getHelpLat(id);
-            Long tempLongitude= db.getHelpLng(id);
+
+            Double tempLatitude= db.getHelpLatitude(id);// datatype should be double not Long
+            Log.i("aaa","Lat "+tempLatitude);
+            Double tempLongitude= db.getHelpLng(id);
+            Log.i("aaa","lng "+tempLongitude);
             if(!tempLatitude.equals(reqesterLongitude)||!tempLongitude.equals(reqesterLongitude)){
                 reqesterLongitude=tempLongitude;
                 requesterLatitude=tempLatitude;
                 DirectionsResult result=directionsResult();
-                addMarkersToMap(result,mMap);//TODO
+                addMarkersToMap(result,mMap);
                 addPolyline(result,mMap);
             }
 
             mHandler.postDelayed(this,10000);
         }
-    };*/
+    };
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             findLocationProvider();
 
@@ -158,8 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     newRequest(getGeoContext())
                     .mode(TravelMode.DRIVING).origin(""+myLatitude+","+myLongitude)
                     .destination(""+requesterLatitude+","+reqesterLongitude)
-                  //  .mode(TravelMode.DRIVING).origin("32.095190,76.389376")
-                    //.destination("32.0954031,76.3923159")
+                  //
                     .await();
         }  catch (InterruptedException e) {
             e.printStackTrace();
@@ -176,12 +186,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void addMarkersToMap(DirectionsResult results, GoogleMap mMap) {
         if(results.routes.length>0){
+            mMap.clear();
         mMap.addMarker(new MarkerOptions().position(new LatLng(results.routes[0].legs[0].startLocation.lat,results.routes[0].legs[0].startLocation.lng)).title(results.routes[0].legs[0].startAddress));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLatitude,myLongitude),15));
+        if(n==0){mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLatitude,myLongitude),15));n++;}
         mMap.addMarker(new MarkerOptions().position(new LatLng(results.routes[0].legs[0].endLocation.lat,results.routes[0].legs[0].endLocation.lng)).title(results.routes[0].legs[0].endAddress).snippet(getEndLocationTitle(results)));}
         else{
-            mMap.addMarker(new MarkerOptions().position(new LatLng(myLatitude+0.000009,myLongitude)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLatitude,myLongitude),20));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(myLatitude,myLongitude)));
+           if(m==0){ mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLatitude,myLongitude),20));m++;}
             mMap.addMarker(new MarkerOptions().position(new LatLng(myLatitude,myLongitude)).snippet(getEndLocationTitle(results)));
         }
 
@@ -210,6 +221,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             location = locationManager.getLastKnownLocation(provider);
 
         }
-        Log.i("gauravrmsc","Location"+location);
+
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},this.AAAA);
+        }
+        Log.i("gauravrmsc","request");
+        locationManager.requestLocationUpdates
+                (provider, 500, 1, this);
+    }
+
+    @Override protected void onPause()
+    { super.onPause();  locationManager.removeUpdates(this); }
+
+
 }

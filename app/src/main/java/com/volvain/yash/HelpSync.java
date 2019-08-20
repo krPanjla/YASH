@@ -2,6 +2,7 @@ package com.volvain.yash;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -10,6 +11,8 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -35,13 +38,21 @@ public class HelpSync extends AppCompatActivity implements LocationListener {
      public int AAAA=0;
     Long id;
     String name;
+    Button stop;
    protected void onCreate(Bundle savedInstanceState){
 
        super.onCreate(savedInstanceState);
        Server.serverUri=this.getString(R.string.server);
 
        setContentView(R.layout.helpframe);
-       Toast.makeText(this,"Sending Request",Toast.LENGTH_LONG);
+
+       stop=(Button) findViewById(R.id.stop);
+       stop.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               stop();
+           }
+       });
        fetchPersonalDetails();
    locationManager=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -89,7 +100,6 @@ public class HelpSync extends AppCompatActivity implements LocationListener {
     private void findLocationProvider(){
        Log.i("gauravrmsc","Finding Provider");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-           Toast.makeText(this,"Location Premission Required",Toast.LENGTH_LONG);
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},HelpSync.this.AAAA);
         }
         //TODO implement above check in caller activity
@@ -146,5 +156,21 @@ public class HelpSync extends AppCompatActivity implements LocationListener {
             name=db.getSenderName();
 
 
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},HelpSync.this.AAAA);
+        }
+        locationManager.requestLocationUpdates
+                (provider, 500, 1, this);
+    }
+    public void stop(){
+       WorkManager.getInstance().cancelAllWork();
+       Intent i=new Intent(this,Home.class);
+       startActivity(i);
     }
 }

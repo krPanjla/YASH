@@ -47,7 +47,7 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
         else loadFragment(new homeFragment());}
 
         else{ loadFragment(new loginFragment());}
-        Log.i("gaurav",""+2);
+
         /*else if(fragmentNo==3){
             loadFragment(new notificationsFragment());
             fragmentNo=1;

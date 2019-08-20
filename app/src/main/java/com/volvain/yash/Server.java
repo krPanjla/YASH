@@ -101,7 +101,7 @@ serverUri=context.getString(R.string.server);
 
     public void sync(Long myId){
     String message="";
-        Log.i("gauravrmsc","sending to server");
+
         try {
             url=new URL(serverUri+"/sync?id="+myId);
             con=(HttpURLConnection)url.openConnection();
@@ -115,8 +115,9 @@ serverUri=context.getString(R.string.server);
             else{
               message+=(char)b;*/
             while((b=i.read())!=-1)message+=(char)b;
-
+            Log.i("gauravrmsc","response received="+message);
             JSONArray ary=(JSONArray) new JSONParser().parse(message);
+
             for (int n=0;n<ary.size();n++) {
                 Map m=(Map)ary.get(n);
               /*  Long id = Long.parseLong(m.get("id").toString());
@@ -127,7 +128,7 @@ serverUri=context.getString(R.string.server);
               Double longitude=(Double)m.get("longitude");
                 Double latitude=(Double)m.get("latitude");
                 String name=m.get("name").toString();
-
+                Log.i("gauravrmsc","longitude="+longitude);
 
                 //TODO insert id,longitude,latitude and name in help table and send notification accordingly
 

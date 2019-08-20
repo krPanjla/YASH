@@ -43,7 +43,7 @@
 
 
             <Button
-                android:id="@+id/login_btn"
+                android:id="@+id/stop"
 
                 android:layout_width="match_parent"
                 android:layout_height="48dp"

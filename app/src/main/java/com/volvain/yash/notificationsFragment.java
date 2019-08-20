@@ -64,7 +64,7 @@ public class notificationsFragment extends Fragment {
                 WorkManager.getInstance().cancelAllWork();
                Intent intent=new Intent(notificationsFragment.this.getContext(),MapsActivity.class);
                intent.putExtra("id",id);
-                Log.i("gauravrmsc","a1");
+                Log.i("gauravrmsc","a1"+id);
                startActivity(intent);
                //TODO Get id from here for search
             }

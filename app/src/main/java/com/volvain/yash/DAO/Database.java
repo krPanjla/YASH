@@ -295,24 +295,33 @@ NotificationCompat.Builder notificationBuilder= new NotificationCompat.Builder(c
         }
     }
 
-    public long getHelpLat(Long id)
+    public double getHelpLatitude(Long id)
     {
-        SQLiteDatabase db=this.getWritableDatabase();
-        String q= "Select Lat from Help where Phone_no =  "+id;
-        Cursor rs =db.rawQuery(q,null);
-        rs.moveToNext();
-           Long lat=rs.getLong(0);
+        double lat ;
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        String q= "Select Lat from Help where Phone_no ="+id;
+
+        Cursor s =db.rawQuery(q,null);
+
+        s.moveToNext();
+             lat = s.getDouble(0);
+
         return lat;
 
     }
 
-    public long getHelpLng(Long id)
+    public double getHelpLng(Long id)
     {
+        double lng;
         SQLiteDatabase db=this.getWritableDatabase();
+
         String q= "Select Lng from Help where Phone_no =  "+id;
-        Cursor rs =db.rawQuery(q,null);
-        rs.moveToNext();
-        Long lng=rs.getLong(0);
+
+        Cursor s =db.rawQuery(q,null);
+        s.moveToNext();
+         lng =s.getDouble(0);
+        Log.i("aa","Lng" + lng);
         return lng;
 
     }

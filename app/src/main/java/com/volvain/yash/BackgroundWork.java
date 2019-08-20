@@ -13,7 +13,7 @@ public class BackgroundWork {
     public static void sync(){
        // Log.i("gauravrmsc","backgriound sync called");
         PeriodicWorkRequest req=new PeriodicWorkRequest.Builder(SyncServer.class,10, TimeUnit.SECONDS)
-                            .setBackoffCriteria(BackoffPolicy.LINEAR,10,TimeUnit.SECONDS)
+                            .setBackoffCriteria(BackoffPolicy.LINEAR,1,TimeUnit.SECONDS)
                              .build();
         WorkManager.getInstance().enqueue(req);
     }
