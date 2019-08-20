@@ -1,6 +1,5 @@
 package com.volvain.yash.DAO;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,12 +17,13 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.volvain.yash.MainActivity;
+import com.volvain.yash.Home;
 import com.volvain.yash.R;
 
 
 public class Database extends SQLiteOpenHelper
-{   public  Cursor rs;
+{   public static final String CHANNELID="channel1";
+    public  Cursor rs;
     public SQLiteDatabase db;
     public static final String DatabaseName="yash.db";
     public static final String TableInfo="Login";
@@ -63,18 +63,23 @@ public class Database extends SQLiteOpenHelper
         cv.put(Col1,id);
         cv.put(Col2,name);
         db.insert(TableInfo,null,cv);
+Log.i("gauravrmsc","data inserted"+getId());
 
     }
 
 
-    public String getName(Long id)
+    public String getName()
     {
         String nm="";
-        Long i=new Long(0);
+       // Long i=new Long(0);
         SQLiteDatabase db=this.getReadableDatabase();
-        String Query ="Select * from Login where id= "+ id;
+       // String Query ="Select * from Login where id= "+ id;
+        String Query ="Select name from Login ";
         Cursor rs= db.rawQuery(Query,null);
-        while (rs.moveToNext())
+        if(rs.moveToNext())
+        nm=rs.getString(0);
+        else nm=" User";
+        /*while (rs.moveToNext())
         {
             i= rs.getLong(0);
             nm=rs.getString(1);
@@ -83,8 +88,8 @@ public class Database extends SQLiteOpenHelper
             return nm;
 
         else
-            return "no_such_id_exist";
-
+            return "no_such_id_exist";*/
+return nm;
     }
 
     public Long getId()
@@ -118,7 +123,7 @@ public class Database extends SQLiteOpenHelper
     }
 
 
-    public  void deletLogIn(Long id)
+    public  void deletLogIn()
     {
         SQLiteDatabase db=this.getWritableDatabase();
       //Cursor rs = null;
@@ -147,7 +152,7 @@ public class Database extends SQLiteOpenHelper
     }
 
 
-    public void deleteHelp(Long id)
+    public void deleteHelp()
     {
         SQLiteDatabase db=this.getWritableDatabase();
 
@@ -255,25 +260,71 @@ public class Database extends SQLiteOpenHelper
         Log.i("gauravrmsc"," notificati");
     manager.notify(1,builder.build());
         Log.i("gauravrmsc"," notification sent");
-  */
-        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+  */createNotificationChannel();
+       /* NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
         bigText.bigText("");
         bigText.setBigContentTitle("Today's Bible Verse");
-        bigText.setSummaryText("Text in detail");
-Notification notification= new NotificationCompat.Builder(context,"CHANNELID")
+        bigText.setSummaryText("Text in detail");*/
+       int priority;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)priority= NotificationCompat.PRIORITY_HIGH ;else priority=NotificationCompat.PRIORITY_MAX ;
+        Intent intent = new Intent(context, Home.class);
+        intent.putExtra("fragmentNo","NotificationFragment" );
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+NotificationCompat.Builder notificationBuilder= new NotificationCompat.Builder(context,CHANNELID)
         .setContentTitle("New Request")
         .setContentText(name+" Needs Help")
         .setAutoCancel(true)
-        .setSmallIcon(R.drawable.abc)
-        .setPriority(NotificationCompat.PRIORITY_HIGH).build();
+        .setContentIntent(pendingIntent)
+        .setSmallIcon(R.drawable.cop1)
+        .setPriority(priority);
 
    NotificationManagerCompat notificationManager=NotificationManagerCompat.from(context);
 
-   notificationManager.notify(1,notification);
+   notificationManager.notify(1,notificationBuilder.build());
 
     }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+            NotificationChannel channel = new NotificationChannel(CHANNELID, "Help Request", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("Channel 1");
+            NotificationManager manager = context.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+
+    public double getHelpLatitude(Long id)
+    {
+        double lat ;
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        String q= "Select Lat from Help where Phone_no ="+id;
+
+        Cursor s =db.rawQuery(q,null);
+
+        s.moveToNext();
+             lat = s.getDouble(0);
+
+        return lat;
+
+    }
+
+    public double getHelpLng(Long id)
+    {
+        double lng;
+        SQLiteDatabase db=this.getWritableDatabase();
+
+        String q= "Select Lng from Help where Phone_no =  "+id;
+
+        Cursor s =db.rawQuery(q,null);
+        s.moveToNext();
+         lng =s.getDouble(0);
+        Log.i("aa","Lng" + lng);
+        return lng;
+
+    }
 }
 
 

@@ -7,4 +7,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_pin_locations">Map</string>
+    <string name="apiKey">AIzaSyAp6rVERlPFzV8BRn31jn6lqmrGBOmj58I</string>
 </resources>
