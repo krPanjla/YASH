@@ -23,8 +23,6 @@ public class SyncServer extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-
-
         if(Global.checkInternet()==0) {
             Database db = new Database(context);
             Long id = db.getId();
