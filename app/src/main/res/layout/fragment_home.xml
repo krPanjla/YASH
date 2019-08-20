@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
@@ -58,7 +58,7 @@
                             android:textSize="25dp"
                             android:layout_gravity="bottom"/>
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
 </LinearLayout>

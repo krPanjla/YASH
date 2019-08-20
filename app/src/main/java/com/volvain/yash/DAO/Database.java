@@ -243,7 +243,7 @@ public class Database extends SQLiteOpenHelper
         }
       
 
-    }
+
     public void getNotification(){
 
     /*NotificationCompat.Builder builder= new NotificationCompat.Builder(context,"Yash")
