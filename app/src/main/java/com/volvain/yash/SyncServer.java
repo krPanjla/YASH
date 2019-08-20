@@ -23,13 +23,9 @@ public class SyncServer extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-
-
         if(Global.checkInternet()==0) {
-            Log.i("gauravrmsc","in Sync Server");
             Database db = new Database(context);
             Long id = db.getId();
-            Log.i("gauravrmsc","id="+id);
             new Server(context).sync(id);//TODO Get Id From Database and pass it to sync
         }
 

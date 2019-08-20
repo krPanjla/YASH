@@ -53,6 +53,8 @@ public class loginFragment extends Fragment {
     public void login(){
         if(Global.checkInternet()==0)
         {
+
+            WorkManager.getInstance().cancelAllWork();//TODO add to logout
      Long id=Long.parseLong(idField.getText().toString());
      String password=passswordField.getText().toString();
      Data data= new Data.Builder()

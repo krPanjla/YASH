@@ -7,6 +7,8 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 
+import androidx.work.WorkManager;
+
 import com.volvain.yash.DAO.Database;
 
 import java.io.BufferedInputStream;
@@ -31,7 +33,7 @@ String message="";
 Context context;
 Server(Context context){
 this.context=context;
-
+serverUri=context.getString(R.string.server);
 }
 
     public  String Signup(Long phone,String name,String password){
@@ -99,7 +101,7 @@ this.context=context;
 
     public void sync(Long myId){
     String message="";
-        Log.i("gauravrmsc","sending to server");
+
         try {
             url=new URL(serverUri+"/sync?id="+myId);
             con=(HttpURLConnection)url.openConnection();
@@ -113,9 +115,9 @@ this.context=context;
             else{
               message+=(char)b;*/
             while((b=i.read())!=-1)message+=(char)b;
-                Log.i("gauravrmsc","in Server Sync");
-                Log.i("gauravrmsc",""+message);
+            Log.i("gauravrmsc","response received="+message);
             JSONArray ary=(JSONArray) new JSONParser().parse(message);
+
             for (int n=0;n<ary.size();n++) {
                 Map m=(Map)ary.get(n);
               /*  Long id = Long.parseLong(m.get("id").toString());
@@ -127,16 +129,13 @@ this.context=context;
                 Double latitude=(Double)m.get("latitude");
                 String name=m.get("name").toString();
                 Log.i("gauravrmsc","longitude="+longitude);
-                Log.i("gauravrmsc","latitude="+latitude);
-                Log.i("gauravrmsc","nme="+name);
-                Log.i("gauravrmsc","nme="+id);
 
                 //TODO insert id,longitude,latitude and name in help table and send notification accordingly
-                Log.i("gauravrmsc","inserting into database");
-                Database db= new Database(context);
-                Log.i("gauravrmsc","inserting into database1"+db.updatHelp(id,name,latitude,longitude));
 
-                Log.i("gauravrmsc","inserted into database");
+                Database db= new Database(context);
+
+                db.updatHelp(id,name,longitude,latitude);
+
             }
             //}
         } catch (MalformedURLException e) {
@@ -147,7 +146,7 @@ this.context=context;
             Log.i("gauravrmsc",""+e);
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.i("gauravrmsc",""+e);
+            Log.i("gauravrmsc","Parse Exception"+e);
         }
     }
   public boolean login(Long id,String password){
@@ -163,7 +162,11 @@ this.context=context;
           if(!(message.equals("Invalid Password") || message.equals("Invalid User Name"))){
           //TODO put name and id in database and remove if any exist before
           Database db= new Database(context);
-          db.deletLogIn(id);
+
+          db.deleteHelp();//TODO add to logout
+          db.deletLogIn();//TODO add to logout
+
+
           db.insertData(id,message);
 
 

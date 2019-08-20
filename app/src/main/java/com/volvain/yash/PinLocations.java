@@ -37,6 +37,7 @@ public class PinLocations extends FragmentActivity implements OnMapReadyCallback
     private boolean mLocationPermissionGranted = false;
     private GoogleMap mMap;
     double Curlat,CurLng;
+    private static final int MY_PERMISSION_REQUEST_CODE=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +91,12 @@ public class PinLocations extends FragmentActivity implements OnMapReadyCallback
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
             if (mLocationPermissionGranted) {
-                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+              /*  if (android.support.v4.app.ActivityCompact.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && android.support.v4.app.ActivityCompact.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
-                }
-                Task location = mFusedLocationProviderClient.getLastLocation();
+                }*/
+              /*  Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
@@ -109,11 +111,19 @@ public class PinLocations extends FragmentActivity implements OnMapReadyCallback
                         }
                     }
                 });
+            */
             }
         }catch(SecurityException e){}
 
     }
 
+ /*   private void requestPermission(){
+        android.support.v4.app.ActivityCompact.requestPermissions(this,new String[]{
+                Mainfest.permission.ACCESS_COARSE_LOCATION;
+                Mainfest.permission.ACCESS_COARSE_LOCATION;
+        },MY_PERMISSION_REQUEST_CODE);
+    }
+*/
 
     private void moveCamera(LatLng latLng,float zoom )
     {

@@ -17,10 +17,13 @@ public class LoginServer extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+
         Long id=getInputData().getLong("id",-1);
         String password=getInputData().getString("password");
-        if(new Server(context).login(id,password))
-        return Result.success();
+        if(new Server(context).login(id,password)){
+
+
+        return Result.success();}
         return Result.failure();
     }
 }
